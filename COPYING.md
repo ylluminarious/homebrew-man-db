@@ -2,7 +2,7 @@ Ahem, software "licenses" are silly things, but here goes:
 
 ---
 
-Copyright (c) 2018 Geoge Plymale II
+Copyright (c) 2018 George Plymale II
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
