@@ -1,7 +1,7 @@
 class ManDb < Formula
   desc "Implementation of the standard Unix man page system, often used on Linux"
   homepage "https://nongnu.org/man-db/"
-  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.2.tar.xz"
+  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.3.tar.xz"
   sha256 "45bdff87df888ddd93dc2a68abca91a2012d6e08333a8fc7c0dfefe9cbde0c5c"
 
   depends_on "libpipeline"
