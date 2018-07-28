@@ -1,8 +1,8 @@
 class ManDb < Formula
   desc "Implementation of the standard Unix man page system, often used on Linux"
   homepage "https://nongnu.org/man-db/"
-  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.3.tar.xz"
-  sha256 "5932a1ca366e1ec61a3ece1a3afa0e92f2fdc125b61d236f20cc6ff9d80cc4ac"
+  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.4.tar.xz"
+  sha256 "103c185f9d8269b9ee3b8a4cb27912b3aa393e952731ef96fedc880723472bc3"
 
   depends_on "libpipeline"
 
@@ -12,21 +12,6 @@ class ManDb < Formula
   # installed files as man:man. But, since we're on OS X, this username/group
   # doesn't exist. Obviously, we don't want to create ad-hoc usernames or groups
   # just to install this one program.
-  #
-  # Second patch explanation:
-  # Gnulib, part of man-db and libpipeline, externs a symbol called
-  # `program_name`. This symbol is supposed to be defined by glibc, which is to
-  # be expected on Linux. However, since we're on OS X, we don't have glibc and
-  # so this symbol will not be defined. This is a known issue and several work-
-  # arounds have been proposed by different people. One option is to use some
-  # CFLAGS to suppress errors about undefined symbols. Unfortunately, this only
-  # seems to work for man-db and doesn't work for other programs which link with
-  # libpipeline. This patch is a more general solution. Unfortunately, the
-  # upstream has not accpted this patch for two years and so they probably never
-  # will. For more info, visit these links:
-  # https://stackoverflow.com/questions/36824434/libpipeline-fails-to-compile-on-mac-os-x
-  # https://github.com/NixOS/nixpkgs/issues/15849
-  # https://lists.gnu.org/archive/html/bug-gnulib/2015-02/msg00079.html
   patch :DATA
 
   def install
@@ -97,21 +82,3 @@ index 5ab90d47..4261d6c8 100644
  	chmod $(man_mode) \
  		$(DESTDIR)$(bindir)/$(TRANS_MAN) \
  		$(DESTDIR)$(bindir)/$(TRANS_MANDB)
-diff --git a/gnulib/lib/error.c b/gnulib/lib/error.c
-index 31109df3..6b68cd15 100644
---- a/gnulib/lib/error.c
-+++ b/gnulib/lib/error.c
-@@ -110,9 +110,13 @@ int strerror_r ();
- #  endif
- # endif
-
-+#if defined __APPLE__ && defined __MACH__
-+#define program_name (((char **)*_NSGetArgv())[0])
-+#else
- /* The calling program should define program_name and set it to the
-    name of the executing program.  */
- extern char *program_name;
-+#endif
-
- # if HAVE_STRERROR_R || defined strerror_r
- #  define __strerror_r strerror_r
