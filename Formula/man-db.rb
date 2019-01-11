@@ -6,9 +6,9 @@ class ManDb < Formula
 
   depends_on "libpipeline"
 
-  # First patch explanation:
-  # The first two patches are actually the same patch for two different files.
-  # Since this utility is intended for Linux systems, it expects to chown the
+  # Patch explanations:
+  # These patches are actually the same patch for two different files.  Since
+  # this utility is intended for Linux systems, it expects to chown the
   # installed files as man:man. But, since we're on OS X, this username/group
   # doesn't exist. Obviously, we don't want to create ad-hoc usernames or groups
   # just to install this one program.
