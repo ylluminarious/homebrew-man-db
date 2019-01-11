@@ -1,8 +1,8 @@
 class ManDb < Formula
   desc "Implementation of the standard Unix man page system, often used on Linux"
   homepage "https://nongnu.org/man-db/"
-  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.4.tar.xz"
-  sha256 "103c185f9d8269b9ee3b8a4cb27912b3aa393e952731ef96fedc880723472bc3"
+  url "https://download.savannah.nongnu.org/releases/man-db/man-db-2.8.5.tar.xz"
+  sha256 "b64d52747534f1fe873b2876eb7f01319985309d5d7da319d2bc52ba1e73f6c1"
 
   depends_on "libpipeline"
 
@@ -17,7 +17,7 @@ class ManDb < Formula
   def install
     ENV["CC"] = "#{ENV.cc} -arch x86_64"
 
-    system "./configure", "--prefix=#{prefix}", "--with-systemdtmpfilesdir=''"
+    system "./configure", "--prefix=#{prefix}", "--with-systemdtmpfilesdir=no", "--with-systemdsystemunitdir=no"
     system "make", "CFLAGS=\"-Wl,-flat_namespace,-undefined,suppress\""
     system "make", "install"
   end
