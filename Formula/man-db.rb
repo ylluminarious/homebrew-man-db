@@ -6,18 +6,10 @@ class ManDb < Formula
 
   depends_on "libpipeline"
 
-  # Patch explanations:
-  # These patches are actually the same patch for two different files.  Since
-  # this utility is intended for Linux systems, it expects to chown the
-  # installed files as man:man. But, since we're on OS X, this username/group
-  # doesn't exist. Obviously, we don't want to create ad-hoc usernames or groups
-  # just to install this one program.
-  patch :DATA
-
   def install
     ENV["CC"] = "#{ENV.cc} -arch x86_64"
 
-    system "./configure", "--prefix=#{prefix}", "--with-systemdtmpfilesdir=no", "--with-systemdsystemunitdir=no"
+    system "./configure", "--prefix=#{prefix}", "--with-systemdtmpfilesdir=no", "--with-systemdsystemunitdir=no", "--disable-cache-owner", "--disable-setuid"
     system "make", "CFLAGS=\"-Wl,-flat_namespace,-undefined,suppress\""
     system "make", "install"
   end
@@ -48,37 +40,3 @@ EOS
     assert_match(true_man_page, output)
   end
 end
-
-__END__
-diff --git a/src/Makefile.am b/src/Makefile.am
-index dd7232e6..cc5c9a0d 100644
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -173,11 +173,6 @@ apropos$(EXEEXT): whatis$(EXEEXT)
- all-am: apropos$(EXEEXT)
-
- install-exec-hook:
--	if [ "$(man_owner)" ] && [ "$(man_mode)" = 6755 ]; then \
--		chown $(man_owner):$(man_owner) \
--			$(DESTDIR)$(bindir)/$(TRANS_MAN) \
--			$(DESTDIR)$(bindir)/$(TRANS_MANDB); \
--	fi
- 	chmod $(man_mode) \
- 		$(DESTDIR)$(bindir)/$(TRANS_MAN) \
- 		$(DESTDIR)$(bindir)/$(TRANS_MANDB)
-diff --git a/src/Makefile.in b/src/Makefile.in
-index 5ab90d47..4261d6c8 100644
---- a/src/Makefile.in
-+++ b/src/Makefile.in
-@@ -2214,11 +2214,6 @@ apropos$(EXEEXT): whatis$(EXEEXT)
- all-am: apropos$(EXEEXT)
-
- install-exec-hook:
--	if [ "$(man_owner)" ] && [ "$(man_mode)" = 6755 ]; then \
--		chown $(man_owner):$(man_owner) \
--			$(DESTDIR)$(bindir)/$(TRANS_MAN) \
--			$(DESTDIR)$(bindir)/$(TRANS_MANDB); \
--	fi
- 	chmod $(man_mode) \
- 		$(DESTDIR)$(bindir)/$(TRANS_MAN) \
- 		$(DESTDIR)$(bindir)/$(TRANS_MANDB)
