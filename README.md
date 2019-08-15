@@ -1,5 +1,7 @@
 # `man-db` and `libpipeline` for OS X
 
+**NB: Homebrew is no longer my preferred package manager so I am maintaining two [MacPorts](https://www.macports.org/ports.php?by=name&substr=man-db) [Portfiles](https://www.macports.org/ports.php?by=name&substr=libpipeline) instead. These can be installed via `sudo port install man-db` and/or `sudo port install libpipeline`**
+
 `man-db` is the man page system for Linux. It is more featureful than OS X's built-in `man` command (which is derived from an old version of BSD). It is quite useful for developers and system administrators and some useful software plugins rely on Linux's `man` behavior, which has not been available on OS X hitherto.
 
 `man-db` depends on a library called `libpipeline` which is also included in this repository. Unfortunately, both of these programs expect to be on a Linux system rather exclusively. So, some patches and extra compilation options are necessary in order to get these programs to work right.
